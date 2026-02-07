@@ -126,12 +126,6 @@ Stream Control:
   GET /stop   - Stop the stream  
   GET /status - Check stream status and rules
 
-Rules (required for filtered stream):
-  GET /rules  - List current rules
-  POST /rules - Add/delete rules
-    Body: { "add": [{ "value": "keyword", "tag": "my-rule" }] }
-    Or:   { "delete": { "ids": ["rule-id-1", "rule-id-2"] } }
-
 OAuth (for posting replies):
   GET /oauth/authorize - Start OAuth flow
 

@@ -26,6 +26,7 @@ curl -X POST "https://api.x.com/2/tweets/search/stream/rules" \
 
 2. Deploy this with `.env` filled in.
 3. Visit `/oauth/authorize` and login with the bot account to gather `X_REFRESH_TOKEN` and redeploy with that token.
+4. Run `/start`
 
 # Architecture
 
