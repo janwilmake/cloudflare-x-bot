@@ -6,7 +6,7 @@ Required context:
 - https://docs.x.com/x-api/posts/create-post.md
 - https://flaredream.com/system-ts.md
 
-Preparation:
+Setup:
 
 1. Create the streaming rule you desire
 
@@ -24,7 +24,10 @@ curl -X POST "https://api.x.com/2/tweets/search/stream/rules" \
   }'
 ```
 
-2.
+2. Deploy this with `.env` filled in.
+3. Visit `/oauth/authorize` and login with the bot account to gather `X_REFRESH_TOKEN` and redeploy with that token.
+
+# Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐

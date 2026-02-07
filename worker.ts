@@ -100,27 +100,6 @@ export default {
       return Response.redirect(authUrl, 302);
     }
 
-    // Manage stream rules
-    if (url.pathname === "/rules") {
-      if (request.method === "GET") {
-        const rules = await getStreamRules(env.X_BEARER_TOKEN);
-        return new Response(JSON.stringify(rules, null, 2), {
-          headers: { "Content-Type": "application/json" }
-        });
-      }
-
-      if (request.method === "POST") {
-        const body = (await request.json()) as {
-          add?: Array<{ value: string; tag?: string }>;
-          delete?: { ids: string[] };
-        };
-        const result = await updateStreamRules(env.X_BEARER_TOKEN, body);
-        return new Response(JSON.stringify(result, null, 2), {
-          headers: { "Content-Type": "application/json" }
-        });
-      }
-    }
-
     if (url.pathname === "/start") {
       await stub.startStream();
       return new Response("Stream started");
@@ -280,33 +259,6 @@ async function getStreamRules(
   if (!response.ok) {
     const error = await response.text();
     throw new Error(`Failed to get rules: ${error}`);
-  }
-
-  return response.json();
-}
-
-async function updateStreamRules(
-  bearerToken: string,
-  body: {
-    add?: Array<{ value: string; tag?: string }>;
-    delete?: { ids: string[] };
-  }
-): Promise<unknown> {
-  const response = await fetch(
-    "https://api.x.com/2/tweets/search/stream/rules",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${bearerToken}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    }
-  );
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Failed to update rules: ${error}`);
   }
 
   return response.json();
