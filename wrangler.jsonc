@@ -1,0 +1,26 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "x-stream-worker",
+  "main": "worker.ts",
+  "compatibility_date": "2026-02-07",
+  "observability": { "logs": { "enabled": true } },
+  "durable_objects": {
+    "bindings": [{ "name": "STREAM_HANDLER", "class_name": "StreamHandler" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["StreamHandler"] }],
+  "queues": {
+    "producers": [{ "binding": "STREAM_QUEUE", "queue": "stream-tweets" }],
+    "consumers": [
+      {
+        "queue": "stream-tweets",
+        "max_batch_size": 10,
+        "max_batch_timeout": 30,
+        "max_retries": 3,
+        "dead_letter_queue": "stream-tweets-dlq"
+      }
+    ]
+  },
+  "triggers": {
+    "crons": ["*/2 * * * *"]
+  }
+}
